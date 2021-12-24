@@ -67,21 +67,21 @@ typedef struct DirEntry {
 #pragma pack(pop)
 
 bool char2Hex(unsigned char &c);
-bool eqN(const unsigned char* addr1,const unsigned char* addr2,const size_t &n);
-const struct BootEntry& readBootEntry(const unsigned char* disk);
-const struct DirEntry& readDirEntry(const unsigned char* addr);
+bool eqN(const unsigned char* const &addr1,const unsigned char* const &addr2,const size_t &n);
+const struct BootEntry& readBootEntry(const unsigned char* const &disk);
+const struct DirEntry& readDirEntry(const unsigned char* const &addr);
 void printUsage();
-void printFSInfo(const unsigned char* disk);
-void printName(const unsigned char* name);
-void printRootDir(const unsigned char* disk);
-void printStatus(const unsigned char* filename,const Status& status);
+void printFSInfo(const unsigned char* const &disk);
+void printName(const unsigned char* const &name);
+void printRootDir(const unsigned char* const &disk);
+void printStatus(const unsigned char* const &filename,const Status& status);
 bool parseCMD(const int &argc,char* const argv[]);
-Status recoverUnique(unsigned char* disk,const unsigned char* filename);
-Status recoverMulti(unsigned char* disk,const unsigned char* filename,const unsigned char* sha1);
-Status recoverRandom(unsigned char* disk,const unsigned char* filename,const unsigned char* sha1);
-map<unsigned,bool> getUnusedClusId(const unsigned &first_clus_id,const unsigned &last_clus_id,const unsigned* fat_area);
-bool checkClusIdSeq(const unsigned char* disk,const unsigned char* sha1,const unsigned &file_sz,const vector<unsigned> &clus_id_seq);
-bool dfsUnusedClusId(const unsigned char* disk,const unsigned char* sha1,const unsigned &file_sz,const unsigned &clus_num,map<unsigned,bool> &visited,vector<unsigned> &clus_id_seq);
+Status recoverUnique(unsigned char* const &disk,const unsigned char* const &filename);
+Status recoverMulti(unsigned char* const &disk,const unsigned char* const &filename,const unsigned char* const &sha1);
+Status recoverRandom(unsigned char* const &disk,const unsigned char* const &filename,const unsigned char* const &sha1);
+map<unsigned,bool> getUnusedClusId(const unsigned &first_clus_id,const unsigned &last_clus_id,const unsigned* const &fat_area);
+bool checkClusIdSeq(const unsigned char* const &disk,const unsigned char* const &sha1,const unsigned &file_sz,const vector<unsigned> &clus_id_seq);
+bool dfsUnusedClusId(const unsigned char* const &disk,const unsigned char* const &sha1,const unsigned &file_sz,const unsigned &clus_num,map<unsigned,bool> &visited,vector<unsigned> &clus_id_seq);
 
 int main(int argc,char* argv[]){
     if(!parseCMD(argc,argv)) printUsage();
@@ -98,17 +98,17 @@ bool char2Hex(unsigned char &c){
     return true;
 }
 
-bool eqN(const unsigned char* addr1,const unsigned char* addr2,const size_t &n){
+bool eqN(const unsigned char* const &addr1,const unsigned char* const &addr2,const size_t &n){
     for(size_t i=0;i!=n;++i)
         if(addr1[i]!=addr2[i]) return false;
     return true;
 }
 
-const struct BootEntry& readBootEntry(const unsigned char* disk){
+const struct BootEntry& readBootEntry(const unsigned char* const &disk){
     return *(const struct BootEntry*)disk;
 }
 
-const struct DirEntry& readDirEntry(const unsigned char* addr){
+const struct DirEntry& readDirEntry(const unsigned char* const &addr){
     return *(const struct DirEntry*)addr;
 }
 
@@ -120,7 +120,7 @@ void printUsage(){
            "  -R filename -s sha1    Recover a possibly non-contiguous file.\n");
 }
 
-void printFSInfo(const unsigned char* disk){
+void printFSInfo(const unsigned char* const &disk){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     printf("Number of FATs = %d\n",boot_entry.BPB_NumFATs);
     printf("Number of bytes per sector = %d\n",boot_entry.BPB_BytsPerSec);
@@ -128,7 +128,7 @@ void printFSInfo(const unsigned char* disk){
     printf("Number of reserved sectors = %d\n",boot_entry.BPB_RsvdSecCnt);
 }
 
-void printName(const unsigned char* name){
+void printName(const unsigned char* const &name){
     int n=7;
     while(n>=0&&name[n]==' ') --n;
     for(int k=0;k<=n;++k) printf("%c",name[k]);
@@ -138,7 +138,7 @@ void printName(const unsigned char* name){
     for(int k=8;k<=n;++k) printf("%c",name[k]);
 }
 
-void printRootDir(const unsigned char* disk){
+void printRootDir(const unsigned char* const &disk){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     const unsigned char* const data_area=disk+(boot_entry.BPB_RsvdSecCnt+boot_entry.BPB_NumFATs*boot_entry.BPB_FATSz32)*boot_entry.BPB_BytsPerSec;
     unsigned* const fat_area=(unsigned*)(disk+boot_entry.BPB_RsvdSecCnt*boot_entry.BPB_BytsPerSec);
@@ -159,7 +159,7 @@ void printRootDir(const unsigned char* disk){
     printf("Total number of entries = %d\n",valid_entry_cnt);
 }
 
-void printStatus(const unsigned char* filename,const Status& status){
+void printStatus(const unsigned char* const &filename,const Status& status){
     printName(filename);
     switch(status){
         case FAIL_NONE: printf(": file not found\n"); break;
@@ -256,7 +256,7 @@ bool parseCMD(const int &argc,char* const argv[]){ // return false iff grammar i
     return true;
 }
 
-Status recoverUnique(unsigned char* disk,const unsigned char* filename){
+Status recoverUnique(unsigned char* const &disk,const unsigned char* const &filename){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     unsigned char* const data_area=disk+(boot_entry.BPB_RsvdSecCnt+boot_entry.BPB_NumFATs*boot_entry.BPB_FATSz32)*boot_entry.BPB_BytsPerSec;
     unsigned* const fat_area=(unsigned*)(disk+boot_entry.BPB_RsvdSecCnt*boot_entry.BPB_BytsPerSec);
@@ -299,7 +299,7 @@ Status recoverUnique(unsigned char* disk,const unsigned char* filename){
     return SUCC_SINGLE;
 }
 
-Status recoverMulti(unsigned char* disk,const unsigned char* filename,const unsigned char* sha1){
+Status recoverMulti(unsigned char* const &disk,const unsigned char* const &filename,const unsigned char* const &sha1){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     unsigned char* const data_area=disk+(boot_entry.BPB_RsvdSecCnt+boot_entry.BPB_NumFATs*boot_entry.BPB_FATSz32)*boot_entry.BPB_BytsPerSec;
     unsigned* const fat_area=(unsigned*)(disk+boot_entry.BPB_RsvdSecCnt*boot_entry.BPB_BytsPerSec);
@@ -353,14 +353,14 @@ Status recoverMulti(unsigned char* disk,const unsigned char* filename,const unsi
     return SUCC_SHA1;
 }
 
-map<unsigned,bool> getUnusedClusId(const unsigned &first_clus_id,const unsigned &last_clus_id,const unsigned* fat_area){
+map<unsigned,bool> getUnusedClusId(const unsigned &first_clus_id,const unsigned &last_clus_id,const unsigned* const &fat_area){
     map<unsigned,bool> unused_clus_id; // use map other than unordered_map inorder to search contiguously first
     for(unsigned clus_id=first_clus_id;clus_id<=last_clus_id;++clus_id)
         if((fat_area[clus_id]&0x0fffffff)==0) unused_clus_id[clus_id]=false;
     return unused_clus_id;
 }
 
-bool checkClusIdSeq(const unsigned char* disk,const unsigned char* sha1,const unsigned &file_sz,const vector<unsigned> &clus_id_seq){
+bool checkClusIdSeq(const unsigned char* const &disk,const unsigned char* const &sha1,const unsigned &file_sz,const vector<unsigned> &clus_id_seq){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     const unsigned char* const data_area=disk+(boot_entry.BPB_RsvdSecCnt+boot_entry.BPB_NumFATs*boot_entry.BPB_FATSz32)*boot_entry.BPB_BytsPerSec;
     unsigned char* const file_buf=(unsigned char*)malloc(file_sz);
@@ -379,7 +379,7 @@ bool checkClusIdSeq(const unsigned char* disk,const unsigned char* sha1,const un
     return eqN(cur_sha1,sha1,SHA1_LEN);
 }
 
-bool dfsUnusedClusId(const unsigned char* disk,const unsigned char* sha1,const unsigned &file_sz,const unsigned &clus_num,map<unsigned,bool> &visited,vector<unsigned> &clus_id_seq){
+bool dfsUnusedClusId(const unsigned char* const &disk,const unsigned char* const &sha1,const unsigned &file_sz,const unsigned &clus_num,map<unsigned,bool> &visited,vector<unsigned> &clus_id_seq){
     if(clus_id_seq.size()==clus_num) return checkClusIdSeq(disk,sha1,file_sz,clus_id_seq);
     for(auto iter=visited.begin();iter!=visited.end();++iter){ // back-trace algorithm
         if(iter->second) continue; // if this cluster has been visited, then skip it
@@ -392,7 +392,7 @@ bool dfsUnusedClusId(const unsigned char* disk,const unsigned char* sha1,const u
     return false;
 }
 
-Status recoverRandom(unsigned char* disk,const unsigned char* filename,const unsigned char* sha1){
+Status recoverRandom(unsigned char* const &disk,const unsigned char* const &filename,const unsigned char* const &sha1){
     const struct BootEntry &boot_entry=readBootEntry(disk);
     unsigned char* const data_area=disk+(boot_entry.BPB_RsvdSecCnt+boot_entry.BPB_NumFATs*boot_entry.BPB_FATSz32)*boot_entry.BPB_BytsPerSec;
     unsigned* const fat_area=(unsigned*)(disk+boot_entry.BPB_RsvdSecCnt*boot_entry.BPB_BytsPerSec);
