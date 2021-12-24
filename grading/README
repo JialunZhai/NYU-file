@@ -1,0 +1,12 @@
+Please create an archive with the following command:
+
+tar cvJf nyufile-Your_NetID.tar.xz Makefile *.c
+
+Please use the exact flags to create the archive. If you have any .h files, please append "*.h" to the above command without the quotes.
+
+Then you must move the archive to the same folder where autograder.sh is present.
+
+Finally, you can run the following command in order to check the output of your programs.
+Usage: ./autograder.sh
+
+Contact a grader for any trouble running the scripts.
