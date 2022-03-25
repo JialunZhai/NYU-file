@@ -12,7 +12,7 @@ But wait a minute, when you delete some files by accident, do you know what's th
 
 Not all files can be recovered successfully. Sometimes you need to provide extra information to help the recovery tool indentify your file. And sometimes we need a brute-force search to put the pieces of your file, namely the clusters, together and try all the possible combinations of these pieces to check whether they can form you original file. This implies that we may not be able to recover the file in pratice because of its high time cost, even though there is a possiblility in theory.
 
-In short, FAT32 is not a file-system designed for file recovery. There is some thing we can do to recover a file, but to a limited extent. If file recovery really matters, you need to try other file-systems.
+In short, FAT32 is not a file-system designed for file recovery. There is something we can do to recover a file, but to a limited extent. If file recovery really matters, you need to try other file-systems.
 
 ## Enviroment
 
