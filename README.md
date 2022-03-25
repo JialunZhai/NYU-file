@@ -21,7 +21,9 @@ This tool is built on **Linux** with **C++11** language. It also relies on OpenS
 ## Compilation
 
 If you have installed CMake on your Linux System, you can directly run command `make` to compile; Otherwise, you should run command
+
 `g++ nyufile.cpp -std=c++11 -o nyufile -l crypto`
+
 to compile.
 If you compiled successfully, you will see an executable file named **nyufile** in current directory. Then you can run command `./nyufile` to open the tool.
 
@@ -64,23 +66,23 @@ Total number of entries = 3
 
 ### Recover a contiguously-allocated file
 
-Note: If you don't know whether your file is contiguously-allocated or not, try this option first.
+**Note**: If you don't know whether your file is contiguously-allocated or not, try this option first.
 
-<span style="color:green;">Succeeded</span>: Try to recover a file named _HELLO.TXT_ in disk _fat32.disk_ and successfully recovered.
+**Succeeded**: Try to recover a file named _HELLO.TXT_ in disk _fat32.disk_ and successfully recovered.
 
 ```bash
 $ ./nyufile fat32.disk -r HELLO.TXT
 HELLO.TXT: successfully recovered
 ```
 
-<span style="color:red;">Failed</span>: Try to recover a file named _HELLO_ in disk _fat32.disk_ while no file found.
+**Failed**: Try to recover a file named _HELLO_ in disk _fat32.disk_ while no file found.
 
 ```bash
 $ ./nyufile fat32.disk -r HELLO
 HELLO: file not found
 ```
 
-<span style="color:orange;">Failed but not really failed</span>: Try to recover a file named _TANT.TXT_ in disk _fat32.disk_ but mutiple files named _.ANG.TXT_ are detected. The recover tool doesn't know which one you want to recover, therefore, you need to provide extra information about the file you want to recover, i.e., SHA-1 digest.
+**Failed but not really failed**: Try to recover a file named _TANT.TXT_ in disk _fat32.disk_ but mutiple files named _.ANG.TXT_ are detected. The recover tool doesn't know which one you want to recover, therefore, you need to provide extra information about the file you want to recover, i.e., SHA-1 digest.
 
 ```bash
 $ ./nyufile fat32.disk -r TANG.TXT
@@ -88,18 +90,23 @@ TANG.TXT: multiple candidates found
 ```
 
 ### Recover a contiguously-allocated file with SHA-1 hash
-Note: This option will perform a brute force algorithm.  To avoid endless search, <span style="color:red;">only the first 12 clusters of the disk will be searched</span>.
 
-<span style="color:green;">Succeeded</span>: Try to recover a file named _TANG.TXT_ with SHA-1 hash _c91761a2cc1562d36585614c8c680ecf5712_ in disk _fat32.disk_ and successfully recovered.
+**Note**: This option will perform a brute force algorithm.  To avoid endless search, **only the first 12 clusters of the disk will be searched**.
+
+**Succeeded**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _c91761a2cc1562d36585614c8c680ecf5712_ in disk _fat32.disk_ and successfully recovered.
 
 ```bash
 $ ./nyufile fat32.disk -r TANG.TXT -s c91761a2cc1562d36585614c8c680ecf5712
 TANG.TXT: successfully recovered with SHA-1
 ```
 
-<span style="color:red;">Failed</span>: Try to recover a file named _TANG.TXT_ with SHA-1 hash _0123456789abcdef0123456789abcdef0123_ in disk _fat32.disk_ while no file found.
+**Failed**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _0123456789abcdef0123456789abcdef0123_ in disk _fat32.disk_ while no file found.
 
-```
+```bash
 $ ./nyufile fat32.disk -r TANG.TXT -s 0123456789abcdef0123456789abcdef0123
 TANG.TXT: file not found
 ```
+
+## Acknowledgement
+
+This project came from course **Operating Systems (CSCI-GA.2250-002)** in **NYU**, offered by **Prof. Yang Tang**.
