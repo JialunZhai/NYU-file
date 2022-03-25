@@ -89,7 +89,7 @@ $ ./nyufile fat32.disk -r TANG.TXT
 TANG.TXT: multiple candidates found
 ```
 
-### Recover a contiguously-allocated file with SHA-1 hash
+### Recover a non-contiguously allocated file with SHA-1 hash
 
 **Note**: This option will perform a brute force algorithm.  To avoid endless search, **only the first 12 clusters of the disk will be searched**.
 
