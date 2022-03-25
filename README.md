@@ -68,21 +68,21 @@ Total number of entries = 3
 
 **Note**: If you don't know whether your file is contiguously-allocated or not, try this option first.
 
-**Succeeded**: Try to recover a file named _HELLO.TXT_ in disk _fat32.disk_ and successfully recovered.
+**Succeeded**: Try to recover a file named _HELLO.TXT_ on disk _fat32.disk_ and successfully recovered.
 
 ```bash
 $ ./nyufile fat32.disk -r HELLO.TXT
 HELLO.TXT: successfully recovered
 ```
 
-**Failed**: Try to recover a file named _HELLO_ in disk _fat32.disk_ while no file found.
+**Failed**: Try to recover a file named _HELLO_ on disk _fat32.disk_ while no file found.
 
 ```bash
 $ ./nyufile fat32.disk -r HELLO
 HELLO: file not found
 ```
 
-**Failed but not really failed**: Try to recover a file named _TANT.TXT_ in disk _fat32.disk_ but mutiple files named _.ANG.TXT_ are detected. The recover tool doesn't know which one you want to recover, therefore, you need to provide extra information about the file you want to recover, i.e., SHA-1 digest.
+**Failed but not really failed**: Try to recover a file named _TANT.TXT_ on disk _fat32.disk_ but mutiple files named _.ANG.TXT_ are detected. The recover tool doesn't know which one you want to recover, therefore, you need to provide extra information about the file you want to recover, i.e., SHA-1 digest.
 
 ```bash
 $ ./nyufile fat32.disk -r TANG.TXT
@@ -93,14 +93,14 @@ TANG.TXT: multiple candidates found
 
 **Note**: This option will perform a brute force algorithm.  To avoid endless search, **only the first 12 clusters of the disk will be searched**.
 
-**Succeeded**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _c91761a2cc1562d36585614c8c680ecf5712_ in disk _fat32.disk_ and successfully recovered.
+**Succeeded**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _c91761a2cc1562d36585614c8c680ecf5712_ on disk _fat32.disk_ and successfully recovered.
 
 ```bash
 $ ./nyufile fat32.disk -r TANG.TXT -s c91761a2cc1562d36585614c8c680ecf5712
 TANG.TXT: successfully recovered with SHA-1
 ```
 
-**Failed**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _0123456789abcdef0123456789abcdef0123_ in disk _fat32.disk_ while no file found.
+**Failed**: Try to recover a file named _TANG.TXT_ with SHA-1 hash _0123456789abcdef0123456789abcdef0123_ on disk _fat32.disk_ while no file found.
 
 ```bash
 $ ./nyufile fat32.disk -r TANG.TXT -s 0123456789abcdef0123456789abcdef0123
