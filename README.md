@@ -8,7 +8,7 @@ FAT32 has been around for 25 years. Because of its simplicity, it is the most wi
 
 Have you ever accidentally deleted a file? Do you know that it could be recovered? NYUfile is a FAT32 file recovery tool to recover your file from a raw disk.
 
-But wait a minute, when you delete some files by accident, do you know what's the first thing you need to do? The answer is "plug out the charge cord of your computer" or "press on the battery button of you laptop" as quickly as you can. Why? That is to prevent the OS from overwriting your deleted file.
+But wait a minute, when you delete some files by accident, do you know what's the first thing you need to do? The answer is "plug out the charge cord of your computer" or "press on the battery button of your laptop" as quickly as you can. Why? That is to prevent the OS from overwriting your deleted file.
 
 Not all files can be recovered successfully. Sometimes you need to prive extra information to help the recovery tool indentify your file. And sometimes we need a brute-force search to put the pieces of your file together and try all the possible combinations of these pieces to check whether they can form you original file. This implies that we may not be able to recover the file in pratice even though there is a possiblility in theory.
 
